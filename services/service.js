@@ -14,6 +14,27 @@ exports.register = (req, callback) => {
             return callback(err);
         } else {
             return callback(null, data);
+            
+            
+        }
+    })
+}
+
+
+/*
+for forgetpassword 
+*/
+exports.forgetpassword = (req, callback) => {
+    /*
+    send data to model and callback from there and here both
+    */
+    usermodel.forgetpassword(req, (err, data) => {
+        //console.log('11',req);
+        
+        if (err) {
+            return callback(err);
+        } else {
+            return callback(null, data);
         }
     })
 }

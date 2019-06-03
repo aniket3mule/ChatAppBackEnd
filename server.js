@@ -1,8 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 var route = require('./route/Routes');
 var expressValidator = require('express-validator');
+
 const PORT = 3001;
+
 
 const app = express();
 app.use(bodyParser.json());
