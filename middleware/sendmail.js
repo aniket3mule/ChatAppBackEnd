@@ -2,12 +2,15 @@ const nodemailer = require('nodemailer');
 
 exports.sendEmailFunction = (url) => {
     console.log('\nurl',url);
+    console.log("env",process.env.EMAIL);
     
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         /*
         email and password are hidden by using of env file
         */
+
+       
         auth: {
             user: process.env.EMAIL,
             pass: process.env.PASSWORD
@@ -16,7 +19,7 @@ exports.sendEmailFunction = (url) => {
 
     const mailOptions = {
         from: 'aniketmule218@gmail.com',
-        to: 'aniketmule1@outlook.com',
+        to: 'angeldark436@gmail.com',
         subject: 'Chat-app password for authorization link ',
         text: 'Please go through the e-mail verifaction link provided in this mail:\n\n' + url
     };

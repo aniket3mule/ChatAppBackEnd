@@ -3,11 +3,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 var route = require('./route/Routes');
 var expressValidator = require('express-validator');
+var cors = require('cors');
 
 const PORT = 3001;
 
 
 const app = express();
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
