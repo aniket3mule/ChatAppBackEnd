@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const events = require('events');
 
 exports.sendEmailFunction = (url) => {
-    this.events = new events.EventEmitter();
+    //this.events = new events.EventEmitter();
     
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -26,9 +26,12 @@ exports.sendEmailFunction = (url) => {
     */
     transporter.sendMail(mailOptions, (err, success) => {
         if (err) {
+            console.log('Mail sending error', err);
            // this.events.emit('Error while Sending Mail : ',err)
         } else{
-            this.events.emit('Mail send successfully : ',success)
+            //this.events.emit('Mail send successfully : ',success)
+            console.log('Mail send successfully', success);
+            
         }
     });
 }

@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 const generateToken = require('../middleware/generateToken');
 
-
 /*
  *screate a function for password encrypt
  */
@@ -29,7 +28,7 @@ exports.register = (req, callback) => {
         if (email !== null) {
             console.log('if', email, 'Email already present');
             response = {
-                'error': true,
+                'status': false,
                 'message': 'Email already exist',
                 'errorcode': 404
             }
@@ -45,10 +44,12 @@ exports.register = (req, callback) => {
                         password: hash(req.body.password),
                     });
                     response = {
-                        'error': true,
+                        'status': true,
                         'message': "Data save successfully",
                     }
-                    return callback(response);
+                    console.log('service > response :',response);
+                    
+                    return callback(null, response);
                 })
                 .catch((err) => {
                     return callback(err)
@@ -80,17 +81,20 @@ exports.login = (req, callback) => {
                         }
                         const token = generateToken.tokenGenrate(payload);
                         console.log("login succesfully");
-
                         callback(null, res);
                     } else {
-                        console.log("Incorrect password");
-                        callback("Incorrect password");
+                        response = {
+                            status : false,
+                            message : "incorrect Password",
+                            errorcode : 404
+                        }
+                        callback(response);
                     }
                 })
             }
         })
         .catch((err) => {
-            return callback("Please check Email")
+            return callback(err)
         });
 }
 /*
@@ -107,20 +111,48 @@ exports.forgetpassword = (req, callback) => {
             'email': email.email
         }
         const tobj = generateToken.tokenGenrate(payload);
-        const url = `http://localhost:3000/login?token=${tobj.token}`
+        const url = `http://localhost:3000/resetpassword/${tobj.token}`
         mail.sendEmailFunction(url);
+        response = {
+            'status' :true,
+            'message' : 'Reset Password link sent to your registerd email'
+        }
+        return callback(null,response);
 
     }).catch(err => {
         console.log('Email is not present');
         response = {
             'error': true,
-            'message': 'Email not exist',
+            'message': 'Email not exist',err,
             'errorcode': 404
         }
         callback(response);
     })
-
 }
+/*
+ * Reset Password 
+ */
+ exports.resetpassword = (req, callback)=>{
+     //console.log('services resetpass : ',req.email, req.password);
+     Users.update({password : req.password,},
+         {where: {
+             email :req.email
+         }}
+         ).then(rowUpdated=>{
+         console.log(rowUpdated);
+         response ={
+             'status' : true,
+             'message' : rowUpdated,
+         }
+         console.log('password updated successfully');
+         
+         return callback(null, response);
+     }).catch(err =>{
+        console.log('error in query');
+         return callback(err)
+         
+     })
+ }
 /*
  * List of users 
  */
@@ -135,6 +167,6 @@ exports.listofuser = (req, callback) => {
             'message': 'Lists not found',
             'errorcode': 404
         }
-        callback(response);
+        return callback(response);
     });
 }
