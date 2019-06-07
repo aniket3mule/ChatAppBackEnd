@@ -80,8 +80,13 @@ exports.login = (req, callback) => {
                             'email': req.body.email
                         }
                         const token = generateToken.tokenGenrate(payload);
+
                         console.log("login succesfully");
-                        callback(null, res);
+                        response = {
+                            'status' : true,
+                            'message' : 'Login Successfully' 
+                        }
+                        return callback(null, response)
                     } else {
                         response = {
                             status : false,
@@ -145,7 +150,6 @@ exports.forgetpassword = (req, callback) => {
              'message' : rowUpdated,
          }
          console.log('password updated successfully');
-         
          return callback(null, response);
      }).catch(err =>{
         console.log('error in query');
@@ -160,7 +164,7 @@ exports.listofuser = (req, callback) => {
     Users.findAll({
         attributes: ['fname', 'lname']
     }).then(userslist => {
-        callback(userslist);
+        return callback(null, userslist);
     }).catch(err => {
         response = {
             'error': err,
