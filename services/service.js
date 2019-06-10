@@ -68,7 +68,7 @@ exports.login = (req, callback) => {
             where: {
                 email: req.body.email,
             },
-            attributes: ['email', 'password']
+            attributes: ['email', 'password','fname','lname','id']
         })
         .then(user => {
             // email will be the first entry of the Projects table with the email 'email' || null
@@ -81,10 +81,15 @@ exports.login = (req, callback) => {
                         }
                         const token = generateToken.tokenGenrate(payload);
 
-                        console.log("login succesfully");
+                        console.log("login succesfully" );
                         response = {
                             'status' : true,
-                            'message' : 'Login Successfully' 
+                            'message' : 'Login Successfully' ,
+                            'fname':user.fname,
+                            'lname':user.lname,
+                            'id':user.id,
+                            'email':user.email,
+                            'token':token
                         }
                         return callback(null, response)
                     } else {
@@ -162,7 +167,7 @@ exports.forgetpassword = (req, callback) => {
  */
 exports.listofuser = (req, callback) => {
     Users.findAll({
-        attributes: ['fname', 'lname']
+        attributes: ['fname', 'lname', 'email']
     }).then(userslist => {
         return callback(null, userslist);
     }).catch(err => {
