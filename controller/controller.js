@@ -59,12 +59,12 @@ module.exports.login = (req, res) => {
          */
         service.login(req, (err, data) => {
             if (err) {
-                console.log('controller > if > login ', err);
+                //console.log('controller > if > login ', err);
                 return res.status(500).send({
                     message: err
                 })
             } else {
-                console.log('controller > login > else : ', data);
+                //console.log('controller > login > else : ', data);
                 return res.status(200).send({
                     message: data
                 });
@@ -149,15 +149,15 @@ module.exports.listofuser = (req, res) => {
 console.log('list users 1 cntr');
 
     service.listofuser(req, (err, data) => {
-        console.log('list users : controller', data);
+        //console.log('list users : controller', data);
         
         if (err) {
-            console.log('controller > if > login ', err);
+            //console.log('controller > if > login ', err);
             return res.status(500).send({
                 message: err
             });
         } else {
-            console.log('controller > if > login ', err);
+            //console.log('controller > if > login ', err);
             return res.status(200).send({
                 message: data
             });

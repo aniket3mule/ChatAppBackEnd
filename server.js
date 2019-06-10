@@ -5,22 +5,19 @@ const route = require('./route/Routes');
 const app = express();
 const expressValidator = require('express-validator');
 const server = require('http').createServer(app)
-const socketio = require('socket.io').listen(server)
+const io = require('socket.io').listen(server)
 const cors = require('cors');
-const PORT = 3001;
+const PORT = 4000;
 const chatController = require('./controller/chatController');
-
 
 app.use(cors())
 app.use(bodyParser.json());
-
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
+app.use(express.static('../client'));
 app.use('/', route);
-app.listen(PORT, () => {
+
+server.listen(PORT, () => {
     console.log('Litsning on port : ' + PORT);
 })
 /**
@@ -28,13 +25,13 @@ app.listen(PORT, () => {
  */
 var connections = [];
 //.on event fired when we get the new connection
-socketio.sockets.on('connection', (socket) => {
+io.sockets.on('connection', (socket) => {
     connections.push(socket);
-    console.log("Event is connected and listing ", connections.length);
+    console.log("\nEvent is connected and listing ", connections.length);
     /**
      * event is connected and listen, and socket.on wait for callback to called the function
      */
-    socket.on('createMessage', (message) => {
+    socket.on('newMessage', (message) => {
         chatController.addMessage(message, (err, data) => {
             if (err) {
                 console.log('Services socket IO :', err);
@@ -44,4 +41,8 @@ socketio.sockets.on('connection', (socket) => {
             }
         })
     })
+    socket.on("disconnect", function () {
+        connections.splice(connections.indexOf(socket), 1)
+        console.log("User Disconnected: ")
+    }) 
 })
