@@ -35,10 +35,12 @@ io.sockets.on('connection', (socket) => {
         chatController.addMessage(message, (err, data) => {
             if (err) {
                 console.log('Services socket IO :', err);
-            } else {
+            } else {    
                 console.log('Services data : ', data);
-                socketio.sockets.emit('sendMessage', data)
+                io.emit('sendMessage', data);
             }
+            io.emit(message.receiverID, data);
+            io.emit(message.senderID, data);
         })
     })
     socket.on("disconnect", function () {

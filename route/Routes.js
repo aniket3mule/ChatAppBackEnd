@@ -3,6 +3,8 @@ const route = express.Router();
 const controller=require('../controller/controller')
 const chatController=require('../controller/chatController')
 const tokenVerification = require('../middleware/tokenVerification')
+// const chatController=require('../controller/chatController')
+
 
 route.post('/login',controller.login)
 route.post('/register',controller.register)
@@ -11,6 +13,6 @@ route.post('/resetpassword/:token',tokenVerification.verifyToken,controller.rese
 route.post('/addMessage', chatController.addMessage)
 // route.post('/emailvarification',controller.emailvarification)
 route.get('/listofuser',controller.listofuser)
-// route.post('/chat history',controller.chathistory)
+route.get('/getallchats',chatController.getAllChats)
 
 module.exports = route

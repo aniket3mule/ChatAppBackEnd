@@ -1,4 +1,4 @@
-const service = require('../services/service');
+const service = require('../services/userService');
 
 module.exports.register = (req, res) => {
 
@@ -92,7 +92,6 @@ module.exports.forgetpassword = (req, res) => {
          send the req to the services and then callback
         */
         service.forgetpassword(req, (err, data) => {
-
             if (err) {
                 console.log(err);
                 return res.status(500).send({
@@ -150,7 +149,6 @@ console.log('list users 1 cntr');
 
     service.listofuser(req, (err, data) => {
         //console.log('list users : controller', data);
-        
         if (err) {
             //console.log('controller > if > login ', err);
             return res.status(500).send({
@@ -164,8 +162,3 @@ console.log('list users 1 cntr');
         }
     });
 }
-
-// module.exports.chathistory = (req, res) => {
-
-
-// }
