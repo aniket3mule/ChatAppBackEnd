@@ -1,6 +1,6 @@
 const express = require('express');
 const route = express.Router();
-const controller=require('../controller/controller')
+const controller=require('../controller/userController')
 const chatController=require('../controller/chatController')
 const tokenVerification = require('../middleware/tokenVerification')
 // const chatController=require('../controller/chatController')

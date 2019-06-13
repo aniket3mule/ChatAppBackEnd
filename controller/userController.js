@@ -27,13 +27,15 @@ module.exports.register = (req, res) => {
         */
         service.register(req, (err, data) => {
             if (err) {
-                console.log(err);
-
-                return res.status(500).send(err);
+                console.log('services', err);
+                return res.status(500).send({
+                    message: err
+                });
             } else {
                 console.log('controller > data : ', data);
-
-                return res.status(200).send(data);
+                return res.status(200).send({
+                    message: data
+                });
             }
         });
     }

@@ -26,7 +26,7 @@ exports.register = (req, callback) => {
     }).then(email => {
         // email will be the first entry of the Projects table with the email 'email' || null
         if (email !== null) {
-            console.log('if', email, 'Email already present');
+            console.log('Email already present');
             response = {
                 'status': false,
                 'message': 'Email already exist',

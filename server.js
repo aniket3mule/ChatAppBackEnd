@@ -39,8 +39,8 @@ io.sockets.on('connection', (socket) => {
                 console.log('Services data : ', data);
                 io.emit('sendMessage', data);
             }
-            io.emit(message.receiverID, data);
-            io.emit(message.senderID, data);
+            // io.emit(message.receiverID, data);
+            // io.emit(message.senderID, data);
         })
     })
     socket.on("disconnect", function () {
