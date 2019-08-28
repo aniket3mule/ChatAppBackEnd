@@ -144,7 +144,7 @@ exports.forgetpassword = (req, callback) => {
  */
  exports.resetpassword = (req, callback)=>{
      //console.log('services resetpass : ',req.email, req.password);
-     Users.update({password : req.password,},
+     Users.update({password : hash(req.password),},
          {where: {
              email :req.email
          }}
@@ -159,7 +159,6 @@ exports.forgetpassword = (req, callback) => {
      }).catch(err =>{
         console.log('error in query');
          return callback(err)
-         
      })
  }
 /*
